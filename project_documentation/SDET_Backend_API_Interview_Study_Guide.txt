@@ -1,0 +1,180 @@
+PREPARACION ENTREVISTA SDET BACKEND/API
+
+NIVEL 1 (IMPRESCINDIBLE)
+========================
+
+Objetivo: Cubrir los fundamentos que probablemente serán evaluados.
+
+1. REST APIs
+   - Métodos HTTP
+   - Status codes
+   - Headers
+   - Request/Response validation
+   - Authentication
+
+2. GraphQL
+   - Schema
+   - Types
+   - Query
+   - Mutation
+   - Variables
+   - Resolvers
+   - Introspection
+
+3. Apollo Server
+   - TypeDefs
+   - Resolvers
+   - Context
+   - Authentication
+   - Error Handling
+
+4. Prisma
+   - Models
+   - Migrations
+   - CRUD
+   - Relationships
+   - Querying data
+
+5. JWT
+   - Token generation
+   - Token validation
+   - Authorization header
+   - Protected endpoints
+
+6. SQL
+   - SELECT
+   - JOIN
+   - GROUP BY
+   - Data validation
+   - Integrity checks
+
+7. Postman
+   - REST testing
+   - GraphQL testing
+   - Environment variables
+   - Collections
+   - Automation scripts
+
+8. Newman
+   - Collection execution
+   - CLI usage
+   - CI/CD integration
+
+
+NIVEL 2 (MUY IMPORTANTE)
+========================
+
+Objetivo: Diferenciarte de candidatos que solo hacen testing básico.
+
+1. Contract Testing
+   - Consumer Driven Contracts
+   - Provider Verification
+   - Service Compatibility
+
+2. Pact
+   - Consumer
+   - Provider
+   - Pact Files
+   - Pact Broker
+   - Verification
+
+3. Service Integration Testing
+   - End-to-End integration validation
+   - API dependencies
+   - Data consistency
+   - Cross-service workflows
+
+4. Troubleshooting
+   - Root Cause Analysis
+   - Logs
+   - API debugging
+   - Integration failures
+
+5. Microservices Testing
+   - Service boundaries
+   - Data flow validation
+   - Contract validation
+
+
+NIVEL 3 (DIFERENCIADOR)
+=======================
+
+Objetivo: Destacar frente a candidatos senior.
+
+1. OpenAPI / Swagger
+   - API Specifications
+   - Documentation
+   - Schema validation
+
+2. GraphQL Introspection
+   - Auto Fetch Schema
+   - Documentation Explorer
+   - Schema discovery
+
+3. GitHub Actions
+   - CI/CD pipelines
+   - Automated execution
+   - Quality gates
+
+4. Kafka
+   - Producer
+   - Consumer
+   - Topics
+   - Events
+   - Message validation
+
+5. Arquitectura de Microservicios
+   - Distributed systems
+   - Service-to-service communication
+   - Reliability
+   - Scalability
+
+
+PLAN DE ESTUDIO RECOMENDADO
+===========================
+
+SEMANA 1
+- TypeScript
+- Node.js
+- REST
+- Postman
+
+SEMANA 2
+- GraphQL
+- Apollo Server
+- Prisma
+- JWT
+
+SEMANA 3
+- SQL
+- Automation Framework
+- Newman
+- GitHub Actions
+
+SEMANA 4
+- Pact
+- Contract Testing
+- Kafka conceptos básicos
+- Mock Interview
+
+
+COBERTURA DE LA JD
+==================
+
+Proyecto actual:
+- Apollo Server
+- GraphQL
+- Prisma
+- SQLite
+- JWT
+- Postman
+- Newman
+
+Cobertura estimada: 65-70%
+
+Para llegar a 85-90%:
+- SQL intermedio-avanzado
+- GitHub Actions
+- Pact
+- Contract Testing
+- Kafka conceptos básicos

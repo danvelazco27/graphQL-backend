@@ -1,0 +1,23 @@
+node_modules
+dist
+.env
+*.db
+*.db-journal
+
+# IDE
+.vscode
+.idea
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+logs
+
+# Coverage
+coverage
+
+# Temp files
+*.tmp
+*.temp
