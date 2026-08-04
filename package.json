@@ -10,7 +10,16 @@
     "start": "node dist/server.js",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "test": "npm run test:api",
+    "test:api": "vitest run --config vitest.config.ts",
+    "test:api:watch": "vitest --config vitest.config.ts",
+    "test:contracts:consumer": "vitest run tests/contracts/consumer/ --config vitest.contract.config.ts",
+    "test:contracts:provider": "vitest run tests/contracts/provider/ --config vitest.contract.config.ts",
+    "test:contracts": "npm run test:contracts:consumer && npm run test:contracts:provider",
+    "test:all": "npm run test:api && npm run test:contracts",
+    "report:allure:api": "allure generate ./reports/allure-api -o ./reports/html/api --clean",
+    "report:allure:contract": "allure generate ./reports/allure-contract -o ./reports/html/contract --clean"
   },
   "keywords": [],
   "author": "",
@@ -25,11 +34,17 @@
     "jsonwebtoken": "^9.0.3"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^17.0.1",
     "@types/bcrypt": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.1.1",
+    "@vitest/ui": "^4.1.10",
+    "allure-js-commons": "^3.10.2",
+    "allure-vitest": "^3.10.2",
+    "axios": "^1.18.1",
     "prisma": "^7.8.0",
     "tsx": "^4.23.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   }
 }

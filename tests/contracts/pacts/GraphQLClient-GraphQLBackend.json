@@ -1,0 +1,358 @@
+{
+  "consumer": {
+    "name": "GraphQLClient"
+  },
+  "interactions": [
+    {
+      "description": "a contacts query with auth",
+      "pending": false,
+      "request": {
+        "body": {
+          "content": {
+            "operationName": "Contacts",
+            "query": "\n  query Contacts {\n    contacts {\n      id\n      name\n      email\n      phone\n      createdAt\n    }\n  }\n"
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Authorization": [
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJlbWFpbCI6InBhY3QtdGVzdEB0ZXN0LmNvbSIsImlhdCI6MTc4NTg3MjE1MywiZXhwIjoxNzg1OTU4NTUzfQ.5leOr8ffdiLi7dZo22zTdGxqxrO0KvQude4g8iFW2wA"
+          ],
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.query": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\s*query\\s*Contacts\\s*\\{\\s*contacts\\s*\\{\\s*id\\s*name\\s*email\\s*phone\\s*createdAt\\s*\\}\\s*\\}\\s*"
+                }
+              ]
+            }
+          }
+        },
+        "method": "POST",
+        "path": "/"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "data": {
+              "contacts": []
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.data.contacts": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 0
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "a createContact request with valid data",
+      "pending": false,
+      "request": {
+        "body": {
+          "content": {
+            "operationName": "CreateContact",
+            "query": "\n  mutation CreateContact($name: String!, $email: String!, $phone: String!) {\n    createContact(name: $name, email: $email, phone: $phone) {\n      id\n      name\n      email\n      phone\n      createdAt\n    }\n  }\n",
+            "variables": {
+              "email": "alice@test.com",
+              "name": "Alice",
+              "phone": "555-0100"
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Authorization": [
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJlbWFpbCI6InBhY3QtdGVzdEB0ZXN0LmNvbSIsImlhdCI6MTc4NTg3MjE1MywiZXhwIjoxNzg1OTU4NTUzfQ.5leOr8ffdiLi7dZo22zTdGxqxrO0KvQude4g8iFW2wA"
+          ],
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.query": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\s*mutation\\s*CreateContact\\(\\$name:\\s*String!,\\s*\\$email:\\s*String!,\\s*\\$phone:\\s*String!\\)\\s*\\{\\s*createContact\\(name:\\s*\\$name,\\s*email:\\s*\\$email,\\s*phone:\\s*\\$phone\\)\\s*\\{\\s*id\\s*name\\s*email\\s*phone\\s*createdAt\\s*\\}\\s*\\}\\s*"
+                }
+              ]
+            }
+          }
+        },
+        "method": "POST",
+        "path": "/"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "data": {
+              "createContact": {
+                "createdAt": "2024-01-03T00:00:00.000Z",
+                "email": "alice@test.com",
+                "id": "550e8400-e29b-41d4-a716-446655440020",
+                "name": "Alice",
+                "phone": "555-0100"
+              }
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.data.createContact.createdAt": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data.createContact.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "a login request with valid credentials",
+      "pending": false,
+      "request": {
+        "body": {
+          "content": {
+            "operationName": "Login",
+            "query": "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      token\n      user {\n        id\n        email\n        createdAt\n      }\n    }\n  }\n",
+            "variables": {
+              "email": "admin@test.com",
+              "password": "Password123"
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.query": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\s*mutation\\s*Login\\(\\$email:\\s*String!,\\s*\\$password:\\s*String!\\)\\s*\\{\\s*login\\(email:\\s*\\$email,\\s*password:\\s*\\$password\\)\\s*\\{\\s*token\\s*user\\s*\\{\\s*id\\s*email\\s*createdAt\\s*\\}\\s*\\}\\s*\\}\\s*"
+                }
+              ]
+            }
+          }
+        },
+        "method": "POST",
+        "path": "/"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "data": {
+              "login": {
+                "token": "jwt-token-abc-123",
+                "user": {
+                  "createdAt": "2024-01-01T00:00:00.000Z",
+                  "email": "admin@test.com",
+                  "id": "550e8400-e29b-41d4-a716-446655440000"
+                }
+              }
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.data.login.token": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data.login.user.createdAt": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data.login.user.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    },
+    {
+      "description": "a register request with new user",
+      "pending": false,
+      "request": {
+        "body": {
+          "content": {
+            "operationName": "Register",
+            "query": "\n  mutation Register($email: String!, $password: String!) {\n    register(email: $email, password: $password) {\n      token\n      user {\n        id\n        email\n        createdAt\n      }\n    }\n  }\n",
+            "variables": {
+              "email": "pact-register@test.com",
+              "password": "Password123"
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.query": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "regex",
+                  "regex": "\\s*mutation\\s*Register\\(\\$email:\\s*String!,\\s*\\$password:\\s*String!\\)\\s*\\{\\s*register\\(email:\\s*\\$email,\\s*password:\\s*\\$password\\)\\s*\\{\\s*token\\s*user\\s*\\{\\s*id\\s*email\\s*createdAt\\s*\\}\\s*\\}\\s*\\}\\s*"
+                }
+              ]
+            }
+          }
+        },
+        "method": "POST",
+        "path": "/"
+      },
+      "response": {
+        "body": {
+          "content": {
+            "data": {
+              "register": {
+                "token": "jwt-token-xyz-789",
+                "user": {
+                  "createdAt": "2024-01-01T00:00:00.000Z",
+                  "email": "pact-register@test.com",
+                  "id": "550e8400-e29b-41d4-a716-446655440001"
+                }
+              }
+            }
+          },
+          "contentType": "application/json",
+          "encoded": false
+        },
+        "headers": {
+          "Content-Type": [
+            "application/json"
+          ]
+        },
+        "matchingRules": {
+          "body": {
+            "$.data.register.token": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data.register.user.createdAt": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.data.register.user.id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      },
+      "type": "Synchronous/HTTP"
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "17.0.1"
+    },
+    "pactRust": {
+      "ffi": "0.5.4",
+      "models": "1.3.11"
+    },
+    "pactSpecification": {
+      "version": "4.0"
+    }
+  },
+  "provider": {
+    "name": "GraphQLBackend"
+  }
+}

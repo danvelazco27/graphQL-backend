@@ -1,16 +1,16 @@
 # GraphQL Contacts API
 
-Backend local GraphQL para prácticas con Postman. API CRUD de contactos con autenticación JWT.
+Local GraphQL backend for Postman practice. Contacts CRUD API with JWT authentication.
 
-## Requisitos Previos
+## Prerequisites
 
-| Software | Versión |
+| Software | Version |
 |----------|---------|
 | Node.js | 22 LTS |
 | npm | 10+ |
-| Git | cualquier versión |
+| Git | any version |
 
-### Extensiones VS Code (recomendadas)
+### VS Code Extensions (Recommended)
 
 - GraphQL
 - Prisma
@@ -19,60 +19,60 @@ Backend local GraphQL para prácticas con Postman. API CRUD de contactos con aut
 
 ---
 
-## Instalación
+## Installation
 
 ```bash
-# Clonar el repositorio
-git clone <repo-url>
+# Clone the repository
+git clone https://github.com/danvelazco27/graphQL-backend.git
 cd graphQL-backend
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Configurar variables de entorno
+# Set up environment variables
 cp .env.example .env
 
-# Generar cliente Prisma
+# Generate Prisma client
 npx prisma generate
 
-# Crear base de datos
+# Create database
 npx prisma db push
 
-# Poblar datos de prueba
+# Seed test data
 npm run db:seed
 ```
 
 ---
 
-## Iniciar el Servidor
+## Start the Server
 
 ```bash
-# Modo desarrollo (con hot-reload)
+# Development mode (with hot-reload)
 npm run dev
 
-# Modo producción
+# Production mode
 npm run build
 npm start
 ```
 
-El servidor arranca en `http://localhost:4000/`
+The server starts at `http://localhost:4000/`
 
 ---
 
-## Variables de Entorno
+## Environment Variables
 
-| Variable | Descripción | Valor por defecto |
-|----------|-------------|-------------------|
-| `DATABASE_URL` | Ruta a SQLite | `file:./prisma/dev.db` |
-| `JWT_SECRET` | Secreto para JWT | `super-secret-key` |
-| `PORT` | Puerto del servidor | `4000` |
+| Variable | Description | Default Value |
+|----------|-------------|---------------|
+| `DATABASE_URL` | SQLite path | `file:./prisma/dev.db` |
+| `JWT_SECRET` | JWT secret | `super-secret-key` |
+| `PORT` | Server port | `4000` |
 
 ---
 
-## Arquitectura
+## Architecture
 
 ```
-Postman / Cliente
+Postman / Client
        │
        ▼
    GraphQL Endpoint (POST /)
@@ -93,30 +93,30 @@ Postman / Cliente
    SQLite
 ```
 
-### Estructura del Proyecto
+### Project Structure
 
 ```
 ├── prisma/
-│   ├── schema.prisma           # Modelos de datos
-│   ├── seed.ts                 # Datos iniciales
-│   └── dev.db                  # Base de datos SQLite
+│   ├── schema.prisma           # Data models
+│   ├── seed.ts                 # Initial data
+│   └── dev.db                  # SQLite database
 ├── src/
 │   ├── graphql/
-│   │   ├── schema.ts           # Schema GraphQL (types, queries, mutations)
+│   │   ├── schema.ts           # GraphQL schema (types, queries, mutations)
 │   │   └── resolvers/
 │   │       └── index.ts        # Resolvers
 │   ├── middleware/
-│   │   └── auth.ts             # Autenticación JWT
+│   │   └── auth.ts             # JWT authentication
 │   ├── services/
-│   │   ├── user.service.ts     # Lógica de usuarios
-│   │   └── contact.service.ts  # Lógica de contactos
+│   │   ├── user.service.ts     # User logic
+│   │   └── contact.service.ts  # Contact logic
 │   ├── utils/
-│   │   ├── jwt.ts              # Generación/verificación de tokens
-│   │   └── validation.ts       # Validaciones
+│   │   ├── jwt.ts              # Token generation/verification
+│   │   └── validation.ts       # Validations
 │   ├── generated/
-│   │   └── prisma/             # Cliente Prisma generado
-│   ├── db.ts                   # Instancia de Prisma
-│   ├── context.ts              # Contexto de Apollo Server
+│   │   └── prisma/             # Generated Prisma client
+│   ├── db.ts                   # Prisma instance
+│   ├── context.ts              # Apollo Server context
 │   └── server.ts               # Entry point
 ├── .env
 ├── package.json
@@ -126,9 +126,9 @@ Postman / Cliente
 
 ---
 
-## Base de Datos
+## Database
 
-### Modelo Entity-Relationship
+### Entity-Relationship Model
 
 ```
 ┌──────────────┐         ┌──────────────────┐
@@ -143,10 +143,10 @@ Postman / Cliente
                          └──────────────────┘
 ```
 
-### Relaciones
+### Relationships
 
-- **User 1 → N Contact**: Un usuario tiene muchos contactos
-- **Contact N → 1 Contact.owner**: Un contacto pertenece a un usuario
+- **User 1 → N Contact**: A user has many contacts
+- **Contact N → 1 Contact.owner**: A contact belongs to a user
 
 ### Prisma Schema
 
@@ -170,27 +170,27 @@ model Contact {
 }
 ```
 
-### Comandos de Base de Datos
+### Database Commands
 
 ```bash
-# Sincronizar esquema con la base de datos
+# Sync schema with database
 npm run db:push
 
-# Crear migración
+# Create migration
 npm run db:migrate
 
-# Poblar datos de prueba
+# Seed test data
 npm run db:seed
 
-# Abrir Prisma Studio (GUI)
+# Open Prisma Studio (GUI)
 npx prisma studio
 ```
 
 ---
 
-## Autenticación (JWT)
+## Authentication (JWT)
 
-### Flujo
+### Flow
 
 ```
 Register → User Created → Login → JWT Generated → Protected Queries
@@ -202,7 +202,7 @@ Register → User Created → Login → JWT Generated → Protected Queries
 Authorization: Bearer <token>
 ```
 
-### Payload del Token
+### Token Payload
 
 ```json
 {
@@ -213,13 +213,13 @@ Authorization: Bearer <token>
 }
 ```
 
-### Expiración
+### Expiration
 
-24 horas
+24 hours
 
-### Endpoints Protegidos
+### Protected Endpoints
 
-| Query/Mutation | Requiere Auth |
+| Query/Mutation | Requires Auth |
 |----------------|---------------|
 | `me` | ✅ |
 | `contacts` | ✅ |
@@ -232,7 +232,7 @@ Authorization: Bearer <token>
 
 ---
 
-## Schema GraphQL
+## GraphQL Schema
 
 ### Types
 
@@ -281,13 +281,13 @@ type Mutation {
 
 ---
 
-## Ejemplos de Uso
+## Usage Examples
 
 ### Register
 
 ```graphql
 mutation {
-  register(email: "nuevo@test.com", password: "Password123") {
+  register(email: "new@test.com", password: "Password123") {
     token
     user {
       id
@@ -311,7 +311,7 @@ mutation {
 }
 ```
 
-### Obtener Contactos
+### Get Contacts
 
 ```graphql
 query {
@@ -324,11 +324,11 @@ query {
 }
 ```
 
-### Obtener Contacto por ID
+### Get Contact by ID
 
 ```graphql
 query {
-  contact(id: "uuid-del-contacto") {
+  contact(id: "contact-uuid") {
     id
     name
     email
@@ -337,7 +337,7 @@ query {
 }
 ```
 
-### Crear Contacto
+### Create Contact
 
 ```graphql
 mutation {
@@ -350,11 +350,11 @@ mutation {
 }
 ```
 
-### Actualizar Contacto
+### Update Contact
 
 ```graphql
 mutation {
-  updateContact(id: "uuid-del-contacto", phone: "3001112233") {
+  updateContact(id: "contact-uuid", phone: "3001112233") {
     id
     name
     phone
@@ -362,83 +362,83 @@ mutation {
 }
 ```
 
-### Eliminar Contacto
+### Delete Contact
 
 ```graphql
 mutation {
-  deleteContact(id: "uuid-del-contacto")
+  deleteContact(id: "contact-uuid")
 }
 ```
 
 ---
 
-## Datos de Prueba
+## Test Data
 
-### Usuarios
+### Users
 
 | Email | Password |
 |-------|----------|
 | admin@test.com | Password123 |
 | daniel@test.com | Password123 |
 
-### Contactos
+### Contacts
 
-| Nombre | Email | Teléfono | Dueño |
-|--------|-------|----------|-------|
+| Name | Email | Phone | Owner |
+|------|-------|-------|-------|
 | John Doe | john@example.com | 3001234567 | admin@test.com |
 | Jane Doe | jane@example.com | 3009876543 | admin@test.com |
 | Bruce Wayne | bruce@example.com | 3112223344 | daniel@test.com |
 
 ---
 
-## Manejo de Errores
+## Error Handling
 
-| Error | Código | Descripción |
-|-------|--------|-------------|
-| `Unauthorized` | `UNAUTHENTICATED` | Token faltante o inválido |
-| `Invalid credentials` | `UNAUTHENTICATED` | Email o password incorrectos |
-| `Email already exists` | `BAD_USER_INPUT` | Email ya registrado |
-| `Invalid email format` | `BAD_USER_INPUT` | Formato de email inválido |
-| `Password must be at least 8 characters` | `BAD_USER_INPUT` | Password muy corto |
-| `Contact not found` | `NOT_FOUND` | Contacto no existe |
-| `User not found` | `NOT_FOUND` | Usuario no existe |
-| `Missing required field` | `BAD_USER_INPUT` | Campo obligatorio faltante |
+| Error | Code | Description |
+|-------|------|-------------|
+| `Unauthorized` | `UNAUTHENTICATED` | Missing or invalid token |
+| `Invalid credentials` | `UNAUTHENTICATED` | Incorrect email or password |
+| `Email already exists` | `BAD_USER_INPUT` | Email already registered |
+| `Invalid email format` | `BAD_USER_INPUT` | Invalid email format |
+| `Password must be at least 8 characters` | `BAD_USER_INPUT` | Password too short |
+| `Contact not found` | `NOT_FOUND` | Contact does not exist |
+| `User not found` | `NOT_FOUND` | User does not exist |
+| `Missing required field` | `BAD_USER_INPUT` | Missing required field |
 
 ---
 
-## Scripts Disponibles
+## Available Scripts
 
-| Script | Descripción |
+| Script | Description |
 |--------|-------------|
-| `npm run dev` | Servidor con hot-reload |
-| `npm run build` | Compilar TypeScript |
-| `npm start` | Ejecutar versión compilada |
-| `npm run db:push` | Sincronizar esquema |
-| `npm run db:migrate` | Crear migración |
-| `npm run db:seed` | Poblar datos de prueba |
+| `npm run dev` | Server with hot-reload |
+| `npm run build` | Compile TypeScript |
+| `npm start` | Run compiled version |
+| `npm run db:push` | Sync schema |
+| `npm run db:migrate` | Create migration |
+| `npm run db:seed` | Seed test data |
 
 ---
 
 ## Introspection
 
-Introspection está habilitada para permitir Auto Fetch en Postman.
+Introspection is enabled to allow Auto Fetch in Postman.
 
-Para obtener el schema en Postman:
-1. Crear una request GraphQL POST a `http://localhost:4000/`
-2. Click en "Schema" tab
-3. Click en "Fetch" - detectará el schema automáticamente
+To get the schema in Postman:
+1. Create a GraphQL POST request to `http://localhost:4000/`
+2. Click on the "Schema" tab
+3. Click "Fetch" - it will automatically detect the schema
 
 ---
 
-## Tecnologías
+## Technologies
 
-| Tecnología | Versión | Propósito |
-|------------|---------|-----------|
+| Technology | Version | Purpose |
+|------------|---------|---------|
 | Node.js | 22 LTS | Runtime |
-| TypeScript | 7.0 | Lenguaje |
+| TypeScript | 7.0 | Language |
 | Apollo Server | 5.5 | GraphQL Server |
 | Prisma | 7.8 | ORM |
-| SQLite | - | Base de datos |
-| JWT | 9.0 | Autenticación |
-| bcrypt | 6.0 | Hashing de passwords |
-| dotenv | 17.4 | Variables de entorno |
+| SQLite | - | Database |
+| JWT | 9.0 | Authentication |
+| bcrypt | 6.0 | Password hashing |
+| dotenv | 17.4 | Environment variables |

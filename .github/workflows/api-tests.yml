@@ -1,0 +1,115 @@
+name: API Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  PORT: 4000
+  DATABASE_URL: "file:./prisma/dev.db"
+  JWT_SECRET: "super-secret-key"
+  API_URL: "http://localhost:4000/"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup database
+        run: |
+          npx prisma db push
+          npx tsx prisma/seed.ts
+
+      - name: Build backend
+        run: npm run build
+
+      - name: Start backend server
+        run: |
+          nohup node dist/server.js > server.log 2>&1 &
+          echo "SERVER_PID=$!" >> $GITHUB_ENV
+
+      - name: Wait for server health
+        run: |
+          for i in $(seq 1 30); do
+            if curl -s -X POST http://localhost:4000/ \
+              -H "Content-Type: application/json" \
+              -d '{"query":"{ __typename }"}' | grep -q "data"; then
+              echo "Server is ready"
+              exit 0
+            fi
+            echo "Waiting for server... attempt $i"
+            sleep 2
+          done
+          echo "Server failed to start"
+          exit 1
+
+      - name: Run API tests
+        run: npx vitest run --config vitest.config.ts
+
+      - name: Generate API Allure report
+        if: always()
+        run: npx allure generate ./reports/allure-api -o ./reports/html/api --clean || true
+
+      - name: Run consumer contract tests
+        run: npx vitest run tests/contracts/consumer/ --config vitest.contract.config.ts
+
+      - name: Run provider contract tests
+        run: npx vitest run tests/contracts/provider/ --config vitest.contract.config.ts
+
+      - name: Generate Contract Allure report
+        if: always()
+        run: npx allure generate ./reports/allure-contract -o ./reports/html/contract --clean || true
+
+      - name: Upload API JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-junit
+          path: reports/junit/api-tests.xml
+
+      - name: Upload API Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-allure-results
+          path: reports/allure-api/
+
+      - name: Upload Contract JUnit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-junit
+          path: reports/junit/contract-tests.xml
+
+      - name: Upload Contract Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-allure-results
+          path: reports/allure-contract/
+
+      - name: Upload HTML reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-reports
+          path: reports/html/
+
+      - name: Stop server
+        if: always()
+        run: kill $SERVER_PID || true
